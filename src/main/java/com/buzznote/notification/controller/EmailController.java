@@ -47,7 +47,7 @@ public class EmailController {
         );
 
         Request request = new Request.Builder()
-                .url("https://api.brevo.com/v3/smtp/email")
+                .url(Objects.requireNonNull(env.getProperty("MAIL_SERVER_API")))
                 .post(body)
                 .addHeader("accept", "application/json")
                 .addHeader("content-type", "application/json")
