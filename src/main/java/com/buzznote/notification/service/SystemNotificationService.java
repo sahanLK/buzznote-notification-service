@@ -2,6 +2,7 @@ package com.buzznote.notification.service;
 
 import com.buzznote.notification.config.RabbitConfig;
 import com.buzznote.notification.dto.SystemMessage;
+import com.buzznote.notification.dto.SystemNotification;
 import com.buzznote.notification.utils.AuthUtils;
 import lombok.Data;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -19,8 +20,13 @@ public class SystemNotificationService {
 
     public void sendSystemMessage(SystemMessage message) {
         message.setFrom(authUtils.getEmail());
-        rabbitTemplate.convertAndSend(RabbitConfig.SYSTEM_NOTIFICATION_EXCHANGE, RabbitConfig.SYSTEM_NOTIFICATION_ROUTING_KEY, message);
-        System.out.println("Message Sent: " + message.getMessage());
+        rabbitTemplate.convertAndSend(RabbitConfig.SYSTEM_MESSAGE_EXCHANGE, RabbitConfig.SYSTEM_MESSAGE_ROUTING_KEY, message);
+        System.out.println("Message sent: " + message.getMessage());
+    }
+
+    public void sendSystemNotification(SystemNotification notification) {
+        rabbitTemplate.convertAndSend(RabbitConfig.SYSTEM_NOTIFICATION_EXCHANGE, RabbitConfig.SYSTEM_NOTIFICATION_ROUTING_KEY, notification);
+        System.out.println("Notification sent: " + notification.getMessage());
     }
 
 }

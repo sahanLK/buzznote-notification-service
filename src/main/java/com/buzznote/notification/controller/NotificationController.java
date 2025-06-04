@@ -1,31 +1,31 @@
 package com.buzznote.notification.controller;
 
 import com.buzznote.notification.dto.SystemMessage;
+import com.buzznote.notification.dto.SystemNotification;
 import com.buzznote.notification.service.SystemNotificationService;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/message")
+@RequiredArgsConstructor
 @RestController
-public class SystemMessageController {
+public class NotificationController {
 
-    @Autowired
     private final SystemNotificationService systemNotificationService;
 
-    public SystemMessageController(SystemNotificationService systemNotificationService) {
-        this.systemNotificationService = systemNotificationService;
-    }
-
-    @PostMapping("/new")
+    @PostMapping("/message")
     public ResponseEntity<?> sendMessage(@Valid @RequestBody SystemMessage message) {
         systemNotificationService.sendSystemMessage(message);
+        return ResponseEntity.ok().body("Message sent");
+    }
+
+    @PostMapping("/notification")
+    public ResponseEntity<?> sendNotification(@Valid @RequestBody SystemNotification notification) {
+        systemNotificationService.sendSystemNotification(notification);
         return ResponseEntity.ok().body("Notification sent");
     }
+
 }

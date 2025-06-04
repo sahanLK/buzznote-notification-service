@@ -25,9 +25,9 @@ public class EmailController {
         this.emailService = emailService;
     }
 
-    @RabbitListener(queues = RabbitConfig.EMAIL_QUEUE)
-    public void handleResetPasswordEmail(Map<String, String> message) throws IOException {
-        emailService.sendPasswordResetEmail(message);
-    }
+//    @RabbitListener(queues = RabbitConfig.EMAIL_QUEUE)
+//    public void handleResetPasswordEmail(Map<String, String> message) throws IOException {
+//        emailService.sendPasswordResetEmail(message);
+//    }
 
 }

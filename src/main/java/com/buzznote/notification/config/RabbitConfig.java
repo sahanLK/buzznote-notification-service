@@ -15,13 +15,27 @@ public class RabbitConfig {
     public static final String EMAIL_EXCHANGE = "email.exchange";
     public static final String EMAIL_ROUTING_KEY = "email.reset";
 
+    public static final String SYSTEM_MESSAGE_QUEUE = "system.message.queue";
+    public static final String SYSTEM_MESSAGE_EXCHANGE = "system.message.exchange";
+    public static final String SYSTEM_MESSAGE_ROUTING_KEY = "system.message";
+
     public static final String SYSTEM_NOTIFICATION_QUEUE = "system.notification.queue";
     public static final String SYSTEM_NOTIFICATION_EXCHANGE = "system.notification.exchange";
     public static final String SYSTEM_NOTIFICATION_ROUTING_KEY = "system.notification";
 
     @Bean
-    public Queue passwordResetEmailqueue() {
-        return new Queue(EMAIL_QUEUE);
+    public Queue systemMessageQueue() {
+        return new Queue(SYSTEM_MESSAGE_QUEUE);
+    }
+
+    @Bean
+    public DirectExchange systemMessageExchange() {
+        return new DirectExchange(SYSTEM_MESSAGE_EXCHANGE);
+    }
+
+    @Bean
+    public Binding bindingSystemMessageQueue() {
+        return BindingBuilder.bind(systemMessageQueue()).to(systemMessageExchange()).with(SYSTEM_MESSAGE_ROUTING_KEY);
     }
 
     @Bean
@@ -30,23 +44,8 @@ public class RabbitConfig {
     }
 
     @Bean
-    public Queue queue() {
-        return new Queue(EMAIL_QUEUE);
-    }
-
-    @Bean
     public DirectExchange systemNotificationExchange() {
         return new DirectExchange(SYSTEM_NOTIFICATION_EXCHANGE);
-    }
-
-    @Bean
-    public DirectExchange passwordResetEmailExchange() {
-        return new DirectExchange(EMAIL_EXCHANGE);
-    }
-
-    @Bean
-    public Binding bindingPasswordResetEmailQueue() {
-        return BindingBuilder.bind(passwordResetEmailqueue()).to(passwordResetEmailExchange()).with(EMAIL_ROUTING_KEY);
     }
 
     @Bean
@@ -63,7 +62,6 @@ public class RabbitConfig {
 
     @Bean
     public MessageConverter jsonMessageConverter() {
-        System.out.println("Getting converter");
         return new Jackson2JsonMessageConverter();
     }
 
