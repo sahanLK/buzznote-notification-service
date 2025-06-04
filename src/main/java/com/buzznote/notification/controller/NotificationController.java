@@ -1,14 +1,19 @@
 package com.buzznote.notification.controller;
 
+import com.buzznote.notification.config.RabbitConfig;
 import com.buzznote.notification.dto.SystemMessage;
 import com.buzznote.notification.dto.SystemNotification;
 import com.buzznote.notification.service.SystemNotificationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -27,5 +32,4 @@ public class NotificationController {
         systemNotificationService.sendSystemNotification(notification);
         return ResponseEntity.ok().body("Notification sent");
     }
-
 }

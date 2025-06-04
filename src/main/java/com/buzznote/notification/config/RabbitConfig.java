@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitConfig {
-    public static final String EMAIL_QUEUE = "email.reset.queue";
-    public static final String EMAIL_EXCHANGE = "email.exchange";
-    public static final String EMAIL_ROUTING_KEY = "email.reset";
+    public static final String PASSWORD_RESET_EMAIL_QUEUE = "email.password-reset.queue";
+    public static final String PASSWORD_RESET_EMAIL_EXCHANGE = "email.password-reset.exchange";
+    public static final String PASSWORD_RESET_EMAIL_ROUTING_KEY = "email.password-reset";
 
     public static final String SYSTEM_MESSAGE_QUEUE = "system.message.queue";
     public static final String SYSTEM_MESSAGE_EXCHANGE = "system.message.exchange";
@@ -51,6 +51,21 @@ public class RabbitConfig {
     @Bean
     public Binding bindingSystemNotificationQueue() {
         return BindingBuilder.bind(systemNotificationQueue()).to(systemNotificationExchange()).with(SYSTEM_NOTIFICATION_ROUTING_KEY);
+    }
+
+    @Bean
+    public Queue passwordResetEmailQueue() {
+        return new Queue(PASSWORD_RESET_EMAIL_QUEUE);
+    }
+
+    @Bean
+    public DirectExchange passwordResetEmailExchange() {
+        return new DirectExchange(PASSWORD_RESET_EMAIL_EXCHANGE);
+    }
+
+    @Bean
+    public Binding bindingPasswordResetEmailQueue() {
+        return BindingBuilder.bind(systemNotificationQueue()).to(systemNotificationExchange()).with(PASSWORD_RESET_EMAIL_ROUTING_KEY);
     }
 
     @Bean
