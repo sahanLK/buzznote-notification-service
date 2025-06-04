@@ -2,12 +2,11 @@ package com.buzznote.notification.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class SystemMessage {
+public class SystemMessageRequest {
 
     @Email(message = "please enter a valid email")
     private String from;
